@@ -17,6 +17,11 @@ export default defineConfig({
       "48": "/icons/48.png",
       "128": "/icons/128.png",
     },
+    browser_specific_settings: {
+      gecko: {
+        id: "chinese-find@fixicelo.ext",
+      },
+    },
+    // modules: ["@wxt-dev/auto-icons"],
   },
-  // modules: ["@wxt-dev/auto-icons"],
 });
