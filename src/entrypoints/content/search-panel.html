@@ -1,0 +1,42 @@
+<div id="chinese-find-panel" class="chinese-find-panel">
+  <div class="chinese-find-panel__header">
+    <div>
+      <div class="chinese-find-panel__title">智慧中文搜尋</div>
+    </div>
+    <button id="chinese-find-close" class="input-action-btn" aria-label="關閉">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" style="width: 16px; height: 16px;">
+        <path d="M4.293 4.293a1 1 0 0 1 1.414 0L8 6.586l2.293-2.293a1 1 0 1 1 1.414 1.414L9.414 8l2.293 2.293a1 1 0 0 1-1.414 1.414L8 9.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L6.586 8 4.293 5.707a1 1 0 0 1 0-1.414z"/>
+      </svg>
+    </button>
+  </div>
+  <div class="chinese-find-panel__body">
+    <div class="chinese-find-panel__search-row">
+      <label class="chinese-find-field">
+        <span class="sr-only">輸入關鍵字</span>
+        <div class="input-wrapper">
+          <input id="chinese-find-input" type="text" placeholder="支援繁體、简体、異體…" autocomplete="off" spellcheck="false">
+          <div class="input-actions">
+            <div id="chinese-find-counter" class="input-counter">0</div>
+            <div class="input-nav">
+              <button id="chinese-find-prev" class="input-action-btn" title="上一個">↑</button>
+              <button id="chinese-find-next" class="input-action-btn" title="下一個">↓</button>
+            </div>
+            <div class="input-divider"></div>
+            <button id="chinese-find-convert-trad" class="input-action-btn" title="轉為繁體">繁</button>
+            <button id="chinese-find-convert-simp" class="input-action-btn" title="转为简体">简</button>
+          </div>
+        </div>
+      </label>
+    </div>
+    <!-- Temporarily disabled: This feature will be re-enabled after further refinement. -->
+    <!-- <div class="chinese-find-panel__options" role="group" aria-label="搜尋選項">
+      <button type="button" class="chinese-find-chip" data-option="exactMatch" aria-pressed="false" title="區分字形">區分字形</button>
+      <button type="button" class="chinese-find-chip" data-option="useRegex" aria-pressed="false" title="使用正則表達式">.* 正則</button>
+      <button type="button" class="chinese-find-chip" data-option="matchCase" aria-pressed="false" title="區分大小寫">Aa 大小寫</button>
+      <button type="button" class="chinese-find-chip" data-option="wholeWord" aria-pressed="false" title="僅匹配完整詞語">W 整詞</button>
+    </div> -->
+  </div>
+  <div class="chinese-find-panel__footer" id="chinese-find-footer" hidden>
+    <span>Enter 跳到下一個 · Shift + Enter 回上一個</span>
+  </div>
+</div>
