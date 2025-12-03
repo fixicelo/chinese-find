@@ -224,6 +224,7 @@ input[type="range"] {
   border-radius: 0.5rem;
   line-height: 1.7;
   color: var(--fg-muted);
+  font-size: large;
 }
 .preview-highlight {
   background: var(--preview-match-bg);

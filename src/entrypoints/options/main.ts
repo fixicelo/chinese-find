@@ -31,38 +31,9 @@ if (app) {
       <main class="main-content">
         <div class="settings-grid">
           <section class="options-card">
-            <h2 class="card-title">主題</h2>
-            <div class="card-content">
-              <fieldset class="theme-selector">
-                <legend class="sr-only">選擇主題</legend>
-                <div>
-                  <input type="radio" id="theme-system" name="theme" value="system" />
-                  <label for="theme-system">
-                    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    <span>跟隨系統</span>
-                  </label>
-                </div>
-                <div>
-                  <input type="radio" id="theme-light" name="theme" value="light" />
-                  <label for="theme-light">
-                    <svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 1-4.995 5.249A5.002 5.002 0 0 1 12 7Zm0-2a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm-8 9h2m14 0h2M12 2v2m0 16v2M4.222 4.222l1.414 1.414m12.728 12.728 1.414 1.414M4.222 19.778l1.414-1.414m12.728-12.728 1.414-1.414"></path></svg>
-                    <span>淺色</span>
-                  </label>
-                </div>
-                <div>
-                  <input type="radio" id="theme-dark" name="theme" value="dark" />
-                  <label for="theme-dark">
-                    <svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 1 7.156-14.156A7 7 0 1 0 12 21Z"></path></svg>
-                    <span>深色</span>
-                  </label>
-                </div>
-              </fieldset>
-            </div>
-          </section>
-          <section class="options-card">
             <h2 class="card-title">外觀設定</h2>
             <div class="field-group">
-              <label for="match-color">一般結果</label>
+              <label for="match-color">搜尋結果</label>
               <div class="color-control">
                 <div class="color-picker-wrapper"><input type="color" id="match-color" /></div>
                 <input type="range" id="match-alpha" min="0" max="1" step="0.05" />
@@ -98,8 +69,37 @@ if (app) {
           <section class="options-card">
             <h2 class="card-title">即時預覽</h2>
             <div class="preview-pane" id="preview-pane">
-              <p>這裡是<span class="preview-highlight">智慧中文搜尋</span>的預覽效果。您可以即時看到<span class="preview-highlight">顏色設定</span>的變更。目前選中的是這個<span class="preview-highlight current">目標</span>。</p>
-              <p>這裡是<span class="preview-highlight">智慧中文搜尋</span>的預覽效果。您可以即時看到<span class="preview-highlight">顏色設定</span>的變更。</p>
+              <p>這裡是<strong>智慧中文搜尋</strong>的預覽效果。您可以即時看到並修改<span class="preview-highlight">搜尋結果</span>的顏色。</p>
+              <p>以及當前選中的<span class="preview-highlight current">目前結果</span>的顏色。</p>
+            </div>
+          </section>
+          <section class="options-card">
+            <h2 class="card-title">主題</h2>
+            <div class="card-content">
+              <fieldset class="theme-selector">
+                <legend class="sr-only">選擇主題</legend>
+                <div>
+                  <input type="radio" id="theme-system" name="theme" value="system" />
+                  <label for="theme-system">
+                    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <span>跟隨系統</span>
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" id="theme-light" name="theme" value="light" />
+                  <label for="theme-light">
+                    <svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 1-4.995 5.249A5.002 5.002 0 0 1 12 7Zm0-2a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm-8 9h2m14 0h2M12 2v2m0 16v2M4.222 4.222l1.414 1.414m12.728 12.728 1.414 1.414M4.222 19.778l1.414-1.414m12.728-12.728 1.414-1.414"></path></svg>
+                    <span>淺色</span>
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" id="theme-dark" name="theme" value="dark" />
+                  <label for="theme-dark">
+                    <svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 1 7.156-14.156A7 7 0 1 0 12 21Z"></path></svg>
+                    <span>深色</span>
+                  </label>
+                </div>
+              </fieldset>
             </div>
           </section>
           <section class="options-card options-hotkeys" id="hotkey-card">
