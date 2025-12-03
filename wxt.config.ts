@@ -7,7 +7,7 @@ export default defineConfig({
     name: "智慧中文搜尋",
     description: "自動識別繁、簡、異體字，讓您的頁面搜尋（Ctrl+F）再無障礙。",
     permissions: ["activeTab", "storage", "contextMenus"],
-    host_permissions: ["<all_urls>"],
+    // host_permissions: ["<all_urls>"],
     action: {
       default_title: "智慧中文搜尋",
     },
