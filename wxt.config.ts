@@ -20,6 +20,9 @@ export default defineConfig({
     browser_specific_settings: {
       gecko: {
         id: "chinese-find@fixicelo.ext",
+        data_collection_permissions: {
+          required: ["none"],
+        },
       },
     },
     // modules: ["@wxt-dev/auto-icons"],
