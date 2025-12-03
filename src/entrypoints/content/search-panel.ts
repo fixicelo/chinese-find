@@ -16,6 +16,7 @@ import {
 import { debounce } from "../../shared/utils";
 import { performSearch, type SearchOptions } from "./dom-search";
 import * as highlight from "./highlighting";
+import { mountHighlightContainer } from "./highlighting";
 
 // ============================================================================
 // Module State
@@ -174,10 +175,16 @@ function applyTheme(theme: Theme) {
 // ============================================================================
 
 async function runSearch(isAutomatic = false): Promise<void> {
+  // Defer search until body is ready, as we need it for TreeWalker
+  if (!document.body) return;
+
   const input = document.getElementById(
     "chinese-find-input",
   ) as HTMLInputElement;
   if (!input) return;
+
+  // Ensure highlight container is in the body before searching & highlighting
+  mountHighlightContainer(highlightContainer);
 
   // Before clearing matches, save the current Range object.
   // This is more stable than saving the index, which can become invalid if the
@@ -255,7 +262,9 @@ function initDomObserver(): void {
 }
 
 function startDomObserver(): void {
-  domObserver?.observe(document.body, { childList: true, subtree: true });
+  if (document.body) {
+    domObserver?.observe(document.body, { childList: true, subtree: true });
+  }
 }
 
 function stopDomObserver(): void {

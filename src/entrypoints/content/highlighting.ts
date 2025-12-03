@@ -12,8 +12,17 @@ let refreshPending = false;
 export function initHighlightContainer(): HTMLDivElement {
   const highlightContainer = document.createElement("div");
   highlightContainer.id = "chinese-find-highlight-container";
-  document.body.appendChild(highlightContainer);
   return highlightContainer;
+}
+
+/**
+ * Appends the highlight container to the document body if it's not already there.
+ * @param container The highlight container element.
+ */
+export function mountHighlightContainer(container: HTMLElement): void {
+  if (document.body && !document.body.contains(container)) {
+    document.body.appendChild(container);
+  }
 }
 
 /**

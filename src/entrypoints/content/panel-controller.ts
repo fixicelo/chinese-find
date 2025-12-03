@@ -8,7 +8,7 @@ export function mountPanel(): HTMLDivElement {
   const root = document.createElement("div");
   root.id = "chinese-find-root";
   root.innerHTML = panelHtml;
-  document.body.appendChild(root);
+  document.documentElement.appendChild(root);
 
   const panel = getPanel();
   if (panel) {

@@ -19,7 +19,7 @@ declare global {
 
 export default defineContentScript({
   matches: ["<all_urls>"],
-  runAt: "document_idle",
+  runAt: "document_start",
 
   main() {
     // 1. Sanity checks to prevent execution in iframes or multiple times.
@@ -27,13 +27,16 @@ export default defineContentScript({
     if (window.chineseFindInjected) return;
     window.chineseFindInjected = true;
 
-    // 2. Initialize all modules.
+    // 2. Initialize modules that don't depend on the DOM body.
+    registerMessaging();
+    const initHotkeys = async () => {
+      await initializeHotkeyController();
+      bindHotkeys();
+    };
+    void initHotkeys();
+
+    // 3. Mount UI and initialize the panel logic.
     const panelRoot = mountPanel();
     initSearchPanel(panelRoot);
-
-    void initializeHotkeyController();
-    bindHotkeys();
-
-    registerMessaging();
   },
 });
