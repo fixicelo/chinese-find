@@ -8,7 +8,11 @@
  */
 
 import { converters, ensureConverters } from "../../shared/converter-logic";
-import { getSettings, subscribeToSettings } from "../../shared/settings-logic";
+import {
+  getSettings,
+  subscribeToSettings,
+  Theme,
+} from "../../shared/settings-logic";
 import { debounce } from "../../shared/utils";
 import { performSearch, type SearchOptions } from "./dom-search";
 import * as highlight from "./highlighting";
@@ -52,12 +56,14 @@ export function initSearchPanel(rootElement: HTMLElement): void {
 
   void getSettings().then((settings) => {
     highlight.applyHighlightSettings(settings);
+    applyTheme(settings.theme);
     // Initial render after settings are loaded
     highlight.renderHighlights(highlightContainer, matches, currentIndex);
   });
 
   subscribeToSettings((settings) => {
     highlight.applyHighlightSettings(settings);
+    applyTheme(settings.theme);
     // Re-render highlights with new colors
     highlight.renderHighlights(highlightContainer, matches, currentIndex);
   });
@@ -144,6 +150,22 @@ export async function applySearchKeyword(keyword: string): Promise<void> {
     input.focus();
     input.select();
     await runSearch();
+  }
+}
+
+// ============================================================================
+// Theme Logic
+// ============================================================================
+
+function applyTheme(theme: Theme) {
+  if (!panelRoot) return;
+
+  panelRoot.classList.remove("theme-light", "theme-dark");
+
+  if (theme === Theme.Light) {
+    panelRoot.classList.add("theme-light");
+  } else if (theme === Theme.Dark) {
+    panelRoot.classList.add("theme-dark");
   }
 }
 

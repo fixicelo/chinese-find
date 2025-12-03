@@ -1,3 +1,8 @@
+import {
+  getSettings,
+  subscribeToSettings,
+  Theme,
+} from "../../shared/settings-logic";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -85,6 +90,24 @@ document.getElementById("popup-options")?.addEventListener("click", () => {
   });
 });
 
+// --- Theme ---
+function applyTheme(theme: Theme) {
+  document.documentElement.classList.remove("theme-light", "theme-dark");
+  if (theme === Theme.Light) {
+    document.documentElement.classList.add("theme-light");
+  } else if (theme === Theme.Dark) {
+    document.documentElement.classList.add("theme-dark");
+  }
+}
+
+async function main() {
+  const settings = await getSettings();
+  applyTheme(settings.theme);
+  subscribeToSettings((newSettings) => {
+    applyTheme(newSettings.theme);
+  });
+}
+
 // --- Helper ---
 
 async function sendMessageToContentScript(message: object) {
@@ -105,3 +128,5 @@ async function sendMessageToContentScript(message: object) {
     // Maybe show an error to the user in the popup
   }
 }
+
+void main();

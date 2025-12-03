@@ -213,27 +213,63 @@
 }
 
 /* Dark Mode */
+#chinese-find-root.theme-dark #chinese-find-panel {
+  --panel-bg: rgba(28, 28, 28, 0.95);
+  --panel-border: #3a3a3a;
+  --panel-fg: #f3f3f3;
+  --panel-muted: #9ca3af;
+  --input-bg: #1c1c1c;
+}
+
 @media (prefers-color-scheme: dark) {
-  #chinese-find-panel {
+  #chinese-find-root:not(.theme-light) #chinese-find-panel {
     --panel-bg: rgba(28, 28, 28, 0.95);
     --panel-border: #3a3a3a;
     --panel-fg: #f3f3f3;
-    --panel-muted: #9ea3af;
+    --panel-muted: #9ca3af;
     --input-bg: #1c1c1c;
   }
-  .input-action-btn {
+}
+
+#chinese-find-root.theme-dark .input-action-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--panel-muted, #9ea3af);
+}
+@media (prefers-color-scheme: dark) {
+  #chinese-find-root:not(.theme-light) .input-action-btn {
     background: rgba(255, 255, 255, 0.1);
     color: var(--panel-muted, #9ea3af);
   }
-  .input-action-btn:hover {
+}
+
+#chinese-find-root.theme-dark .input-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--panel-fg, #f3f3f3);
+}
+@media (prefers-color-scheme: dark) {
+  #chinese-find-root:not(.theme-light) .input-action-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     color: var(--panel-fg, #f3f3f3);
   }
-  .chinese-find-chip {
+}
+
+#chinese-find-root.theme-dark .chinese-find-chip {
+  border-color: #3a3a3a;
+  background: rgba(143, 181, 255, 0.08);
+}
+@media (prefers-color-scheme: dark) {
+  #chinese-find-root:not(.theme-light) .chinese-find-chip {
     border-color: #3a3a3a;
     background: rgba(143, 181, 255, 0.08);
   }
-  .chinese-find-chip.is-active {
+}
+
+#chinese-find-root.theme-dark .chinese-find-chip.is-active {
+  background: #5b7cff;
+  border-color: #5b7cff;
+}
+@media (prefers-color-scheme: dark) {
+  #chinese-find-root:not(.theme-light) .chinese-find-chip.is-active {
     background: #5b7cff;
     border-color: #5b7cff;
   }

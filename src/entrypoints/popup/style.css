@@ -2,38 +2,48 @@
   --font-sans:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --brand-color: #51939c;
+  --brand-color-fg: #ffffff;
+  --destructive-color: #be123c;
 
   /* Light Theme */
-  --bg-light: #f9fafb;
-  --fg-headings-light: #111827;
-  --fg-muted-light: #6b7280;
-  --border-light: #d1d5db;
-  --input-bg-light: #ffffff;
+  --bg-light: #f8fafc;
+  --fg-default-light: #334155;
+  --fg-muted-light: #64748b;
+  --border-light: #e2e8f0;
 
   /* Dark Theme */
-  --bg-dark: #111827;
-  --fg-headings-dark: #f1f5f9;
+  --bg-dark: #0f172a;
+  --fg-default-dark: #d1d5db;
   --fg-muted-dark: #9ca3af;
   --border-dark: #374151;
-  --input-bg-dark: #1f2937;
 }
 
 :root {
-  color-scheme: light dark;
   --bg: var(--bg-light);
-  --fg-headings: var(--fg-headings-light);
+  --fg-default: var(--fg-default-light);
   --fg-muted: var(--fg-muted-light);
   --border: var(--border-light);
-  --input-bg: var(--input-bg-light);
+}
+
+html.theme-light {
+  color-scheme: light;
+}
+
+html.theme-dark {
+  color-scheme: dark;
+  --bg: var(--bg-dark);
+  --fg-default: var(--fg-default-dark);
+  --fg-muted: var(--fg-muted-dark);
+  --border: var(--border-dark);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:not(.theme-light) {
+    color-scheme: dark;
     --bg: var(--bg-dark);
-    --fg-headings: var(--fg-headings-dark);
+    --fg-default: var(--fg-default-dark);
     --fg-muted: var(--fg-muted-dark);
     --border: var(--border-dark);
-    --input-bg: var(--input-bg-dark);
   }
 }
 
@@ -45,85 +55,97 @@ body {
   margin: 0;
   font-family: var(--font-sans);
   background: var(--bg);
-  color: var(--fg-headings);
-  width: 340px;
+  color: var(--fg-default);
+  width: 320px;
 }
 
 .popup-shell {
-  padding: 1rem;
+  padding: 16px;
 }
 
 .popup-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
+
 .title-group {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 8px;
 }
+
 .title-group img {
   width: 24px;
   height: 24px;
 }
+
 .popup-title {
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--fg-headings);
   margin: 0;
 }
 
-.popup-form {
-  display: flex;
-}
 .input-wrapper {
   position: relative;
   display: flex;
-  flex-grow: 1;
+  align-items: center;
 }
 
 #popup-query {
   width: 100%;
-  background: var(--input-bg);
+  padding: 8px 12px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  padding: 0.75rem 3.5rem 0.75rem 1rem;
-  font-size: 1rem;
+  background: var(--bg);
   color: inherit;
-  font-family: inherit;
+  font-size: 14px;
 }
-#popup-query:focus {
-  outline: none;
-  border-color: var(--brand-color);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-color) 25%, transparent);
+
+.search-icon-text {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .divider {
-  border: none;
-  border-top: 1px none var(--border);
-  margin-top: 5px;
-  padding-bottom: 5px;
-  /* margin: 0; */
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
 }
 
 .actions-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  gap: 8px;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   border: 1px solid transparent;
   border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 14px;
   transition: all 0.15s ease-in-out;
+  user-select: none;
 }
+
+.button.primary {
+  background: var(--brand-color);
+  color: var(--brand-color-fg);
+}
+
+.button.secondary {
+  background: color-mix(in srgb, var(--brand-color) 15%, transparent);
+  color: var(--brand-color);
+  border: 1px solid var(--brand-color);
+}
+
 .button.icon-button {
   padding: 0;
   width: 32px;
@@ -131,14 +153,11 @@ body {
   background: none;
   border: none;
   color: var(--fg-muted);
+  border-radius: 50%;
 }
+
 .button.icon-button:hover {
-  color: var(--fg-headings);
-  background: color-mix(in srgb, currentColor 10%, transparent);
-}
-.button.icon-button svg {
-  width: 20px;
-  height: 20px;
+  background: color-mix(in srgb, currentColor 15%, transparent);
 }
 
 #popup-search {
@@ -156,18 +175,6 @@ body {
 #popup-search:hover {
   background: color-mix(in srgb, var(--brand-color) 90%, black);
 }
-.search-icon-text {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-.button.primary:hover {
-  background: color-mix(in srgb, var(--brand-color) 90%, black);
-}
-.button.secondary {
-  background: var(--input-bg);
-  color: var(--fg-default);
-  border-color: var(--border);
-}
 
 .sr-only {
   position: absolute;
@@ -177,6 +184,5 @@ body {
   margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  border: 0;
 }

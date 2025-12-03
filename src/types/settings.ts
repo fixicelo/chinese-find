@@ -6,6 +6,16 @@
  */
 
 // ============================================================================
+// Theme Related Types
+// ============================================================================
+
+export enum Theme {
+  Light = "light",
+  Dark = "dark",
+  System = "system",
+}
+
+// ============================================================================
 // Hotkey Related Types
 // ============================================================================
 
@@ -60,6 +70,8 @@ export type ColorSetting = {
  * Stored in `browser.storage.sync` and synchronized across devices.
  */
 export type UserSettings = {
+  /** UI theme preference. */
+  theme: Theme;
   /** List of hotkey combinations to open the search panel (supports multiple). */
   hotkeys: HotkeyCombo[];
   /** Highlight color for general search results. */

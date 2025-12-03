@@ -18,6 +18,8 @@ import type {
   HotkeyCombo,
   UserSettings,
 } from "../types/settings";
+import { Theme } from "../types/settings";
+export { Theme };
 export type { HotkeyCombo, ColorSetting, UserSettings };
 
 /** The key used to store settings in `browser.storage.sync`. */
@@ -35,6 +37,7 @@ const DEFAULT_OUTLINE_COLOR: ColorSetting = { hex: "#ff9800", alpha: 1 };
  * Default settings, used for initialization or resetting.
  */
 export const DEFAULT_SETTINGS: UserSettings = {
+  theme: Theme.System,
   hotkeys: [{ key: "f", ctrlKey: true }],
   matchHighlight: DEFAULT_MATCH_COLOR,
   currentHighlight: DEFAULT_CURRENT_COLOR,
@@ -152,6 +155,7 @@ export async function getSettings(): Promise<UserSettings> {
     return {
       ...DEFAULT_SETTINGS,
       ...stored,
+      theme: stored.theme || DEFAULT_SETTINGS.theme,
       matchHighlight: {
         ...DEFAULT_SETTINGS.matchHighlight,
         ...(stored.matchHighlight || {}),

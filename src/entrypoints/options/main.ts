@@ -6,6 +6,7 @@ import {
   getSettings,
   type HotkeyCombo,
   subscribeToSettings,
+  Theme,
   type UserSettings,
   updateSettings,
 } from "../../shared/settings-logic";
@@ -29,6 +30,35 @@ if (app) {
       </header>
       <main class="main-content">
         <div class="settings-grid">
+          <section class="options-card">
+            <h2 class="card-title">主題</h2>
+            <div class="card-content">
+              <fieldset class="theme-selector">
+                <legend class="sr-only">選擇主題</legend>
+                <div>
+                  <input type="radio" id="theme-system" name="theme" value="system" />
+                  <label for="theme-system">
+                    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <span>跟隨系統</span>
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" id="theme-light" name="theme" value="light" />
+                  <label for="theme-light">
+                    <svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 1-4.995 5.249A5.002 5.002 0 0 1 12 7Zm0-2a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm-8 9h2m14 0h2M12 2v2m0 16v2M4.222 4.222l1.414 1.414m12.728 12.728 1.414 1.414M4.222 19.778l1.414-1.414m12.728-12.728 1.414-1.414"></path></svg>
+                    <span>淺色</span>
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" id="theme-dark" name="theme" value="dark" />
+                  <label for="theme-dark">
+                    <svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 1 7.156-14.156A7 7 0 1 0 12 21Z"></path></svg>
+                    <span>深色</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+          </section>
           <section class="options-card">
             <h2 class="card-title">外觀設定</h2>
             <div class="field-group">
@@ -92,6 +122,9 @@ if (app) {
 
 // --- DOM Element Selection ---
 const dom = {
+  themeSystem: document.querySelector<HTMLInputElement>("#theme-system"),
+  themeLight: document.querySelector<HTMLInputElement>("#theme-light"),
+  themeDark: document.querySelector<HTMLInputElement>("#theme-dark"),
   previewPane: document.getElementById("preview-pane"),
   matchColor: document.querySelector<HTMLInputElement>("#match-color"),
   matchAlpha: document.querySelector<HTMLInputElement>("#match-alpha"),
@@ -124,6 +157,12 @@ let currentSettings: UserSettings | null = null;
 function hydrateUI(s: UserSettings) {
   if (!s) return;
   currentSettings = s;
+  applyTheme(s.theme);
+  // Theme
+  if (dom.themeSystem) dom.themeSystem.checked = s.theme === Theme.System;
+  if (dom.themeLight) dom.themeLight.checked = s.theme === Theme.Light;
+  if (dom.themeDark) dom.themeDark.checked = s.theme === Theme.Dark;
+
   // Colors
   if (dom.matchColor) dom.matchColor.value = s.matchHighlight.hex;
   if (dom.matchAlpha) dom.matchAlpha.value = s.matchHighlight.alpha.toString();
@@ -183,6 +222,15 @@ function updatePreview(s: UserSettings) {
   dom.previewPane.style.setProperty("--preview-current-outline", outlineColor);
 }
 
+function applyTheme(theme: Theme) {
+  document.documentElement.classList.remove("theme-light", "theme-dark");
+  if (theme === Theme.Light) {
+    document.documentElement.classList.add("theme-light");
+  } else if (theme === Theme.Dark) {
+    document.documentElement.classList.add("theme-dark");
+  }
+}
+
 // --- Event Listeners Setup ---
 
 function setupListeners() {
@@ -213,6 +261,17 @@ function setupListeners() {
     updatePreview({ ...(currentSettings || DEFAULT_SETTINGS), ...newSettings });
     debouncedSave(newSettings);
   };
+
+  const onThemeChange = () => {
+    let theme = Theme.System;
+    if (dom.themeLight?.checked) theme = Theme.Light;
+    if (dom.themeDark?.checked) theme = Theme.Dark;
+    debouncedSave({ theme });
+  };
+
+  dom.themeSystem?.addEventListener("change", onThemeChange);
+  dom.themeLight?.addEventListener("change", onThemeChange);
+  dom.themeDark?.addEventListener("change", onThemeChange);
 
   dom.matchColor?.addEventListener("input", onColorChange);
   dom.matchAlpha?.addEventListener("input", onColorChange);
