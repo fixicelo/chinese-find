@@ -106,6 +106,8 @@ async function main() {
   subscribeToSettings((newSettings) => {
     applyTheme(newSettings.theme);
   });
+
+  document.getElementById("popup-query")?.focus();
 }
 
 // --- Helper ---
