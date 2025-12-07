@@ -42,6 +42,9 @@ export function registerMessaging(): void {
       case "chinese-find-convert-page-to-traditional":
         convertPage("traditional");
         break;
+
+      case "PING":
+        return "PONG";
     }
   });
 }

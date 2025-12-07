@@ -47,6 +47,59 @@ html.theme-dark {
   }
 }
 
+.warning-banner {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  display: none;
+  border: 1px solid #ffeeba;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* Ensure it's hidden by default, overriding the flex display above if needed via JS or specific class */
+.warning-banner[style*="display: none"] {
+  display: none !important;
+}
+
+.button-link {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: inherit;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.button-link:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.button-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+html.theme-dark .warning-banner {
+  background-color: #422006;
+  color: #fcd34d;
+  border-color: #78350f;
+}
+
+html.theme-dark .button-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 * {
   box-sizing: border-box;
 }
