@@ -286,7 +286,7 @@ function navigate(step: number): void {
   try {
     matches[currentIndex]?.startContainer.parentElement?.scrollIntoView({
       block: "center",
-      behavior: "smooth",
+      behavior: "auto",
     });
   } catch {
     /* Range may be invalid */
