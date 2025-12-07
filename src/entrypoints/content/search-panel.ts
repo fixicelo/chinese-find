@@ -22,7 +22,7 @@ import { mountHighlightContainer } from "./highlighting";
 // Module State
 // ============================================================================
 
-let panelRoot: HTMLElement;
+let panelRoot: ShadowRoot;
 let highlightContainer: HTMLElement;
 
 let matches: Range[] = [];
@@ -38,10 +38,10 @@ const options: SearchOptions = {
 
 let domObserver: MutationObserver | null = null;
 const debouncedObserverSearch = debounce(() => {
-  const input = document.getElementById(
+  const input = panelRoot.getElementById(
     "chinese-find-input",
   ) as HTMLInputElement;
-  const panel = document.getElementById("chinese-find-panel");
+  const panel = panelRoot.getElementById("chinese-find-panel");
   if (panel?.style.display !== "none" && input?.value) {
     void runSearch(true);
   }
@@ -51,8 +51,8 @@ const debouncedObserverSearch = debounce(() => {
 // Initialization
 // ============================================================================
 
-export function initSearchPanel(rootElement: HTMLElement): void {
-  panelRoot = rootElement;
+export function initSearchPanel(root: ShadowRoot): void {
+  panelRoot = root;
   highlightContainer = highlight.initHighlightContainer();
 
   void getSettings().then((settings) => {
@@ -72,20 +72,37 @@ export function initSearchPanel(rootElement: HTMLElement): void {
   void ensureConverters();
   setupListeners();
   initDomObserver();
+  isolatePanelEvents();
+}
+
+/**
+ * Prevents keyboard events inside the panel from bubbling up to the host page.
+ * This is necessary because Shadow DOM retargets events to the host element,
+ * causing sites like GitHub to think the user is not typing in an input field.
+ */
+function isolatePanelEvents(): void {
+  const panel = panelRoot.getElementById("chinese-find-panel");
+  if (!panel) return;
+
+  const stopPropagation = (e: Event) => e.stopPropagation();
+
+  panel.addEventListener("keydown", stopPropagation);
+  panel.addEventListener("keypress", stopPropagation);
+  panel.addEventListener("keyup", stopPropagation);
 }
 
 function setupListeners(): void {
-  const input = document.getElementById("chinese-find-input");
+  const input = panelRoot.getElementById("chinese-find-input");
   input?.addEventListener(
     "input",
     debounce(() => runSearch(), 200),
   );
   input?.addEventListener("keydown", handleEnterNavigation);
 
-  document
+  panelRoot
     .getElementById("chinese-find-close")
     ?.addEventListener("click", () => {
-      const panel = document.getElementById("chinese-find-panel");
+      const panel = panelRoot.getElementById("chinese-find-panel");
       if (panel) {
         panel.style.display = "none";
         window.dispatchEvent(
@@ -96,17 +113,17 @@ function setupListeners(): void {
       }
     });
 
-  document
+  panelRoot
     .getElementById("chinese-find-prev")
     ?.addEventListener("click", () => navigate(-1));
-  document
+  panelRoot
     .getElementById("chinese-find-next")
     ?.addEventListener("click", () => navigate(1));
 
-  document
+  panelRoot
     .getElementById("chinese-find-convert-trad")
     ?.addEventListener("click", () => convertInputText("traditional"));
-  document
+  panelRoot
     .getElementById("chinese-find-convert-simp")
     ?.addEventListener("click", () => convertInputText("simplified"));
 
@@ -143,7 +160,7 @@ function setupListeners(): void {
 }
 
 export async function applySearchKeyword(keyword: string): Promise<void> {
-  const input = document.getElementById(
+  const input = panelRoot.getElementById(
     "chinese-find-input",
   ) as HTMLInputElement;
   if (input) {
@@ -161,12 +178,13 @@ export async function applySearchKeyword(keyword: string): Promise<void> {
 function applyTheme(theme: Theme) {
   if (!panelRoot) return;
 
-  panelRoot.classList.remove("theme-light", "theme-dark");
+  const host = panelRoot.host as HTMLElement;
+  host.classList.remove("theme-light", "theme-dark");
 
   if (theme === Theme.Light) {
-    panelRoot.classList.add("theme-light");
+    host.classList.add("theme-light");
   } else if (theme === Theme.Dark) {
-    panelRoot.classList.add("theme-dark");
+    host.classList.add("theme-dark");
   }
 }
 
@@ -178,7 +196,7 @@ async function runSearch(isAutomatic = false): Promise<void> {
   // Defer search until body is ready, as we need it for TreeWalker
   if (!document.body) return;
 
-  const input = document.getElementById(
+  const input = panelRoot.getElementById(
     "chinese-find-input",
   ) as HTMLInputElement;
   if (!input) return;
@@ -248,8 +266,8 @@ function initDomObserver(): void {
   domObserver = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       if (
-        panelRoot.contains(mutation.target) ||
-        highlightContainer.contains(mutation.target)
+        panelRoot.host.contains(mutation.target as Node) ||
+        highlightContainer.contains(mutation.target as Node)
       ) {
         continue;
       }
@@ -296,12 +314,12 @@ function navigate(step: number): void {
 }
 
 function updateCounter(): void {
-  const counter = document.getElementById("chinese-find-counter");
+  const counter = panelRoot.getElementById("chinese-find-counter");
   if (counter) {
     counter.textContent =
       matches.length > 0 ? `${currentIndex + 1}/${matches.length}` : "0";
   }
-  document
+  panelRoot
     .getElementById("chinese-find-footer")
     ?.toggleAttribute("hidden", matches.length === 0);
 }
@@ -323,7 +341,7 @@ async function convertInputText(
 ): Promise<void> {
   await ensureConverters();
   const converter = target === "simplified" ? converters.s : converters.t;
-  const input = document.getElementById(
+  const input = panelRoot.getElementById(
     "chinese-find-input",
   ) as HTMLInputElement;
 

@@ -1,14 +1,19 @@
 import panelHtml from "./search-panel.html?raw";
+import panelCss from "./panel.css?inline";
+
+let shadowRoot: ShadowRoot | null = null;
 
 /**
  * Mounts the search panel UI into the page.
- * @returns The root element of the mounted panel.
+ * @returns The shadow root of the mounted panel.
  */
-export function mountPanel(): HTMLDivElement {
+export function mountPanel(): ShadowRoot {
   const root = document.createElement("div");
   root.id = "chinese-find-root";
-  root.innerHTML = panelHtml;
   document.documentElement.appendChild(root);
+
+  shadowRoot = root.attachShadow({ mode: "open" });
+  shadowRoot.innerHTML = `<style>${panelCss}</style>${panelHtml}`;
 
   const panel = getPanel();
   if (panel) {
@@ -16,7 +21,7 @@ export function mountPanel(): HTMLDivElement {
   }
 
   togglePanel(false); // Initially hidden
-  return root;
+  return shadowRoot;
 }
 
 /**
@@ -24,7 +29,7 @@ export function mountPanel(): HTMLDivElement {
  * @returns The panel element or null if not found.
  */
 function getPanel(): HTMLElement | null {
-  return document.getElementById("chinese-find-panel");
+  return shadowRoot?.getElementById("chinese-find-panel") ?? null;
 }
 
 /**
