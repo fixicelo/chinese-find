@@ -173,9 +173,7 @@ export async function getSettings(): Promise<UserSettings> {
           ? stored.showOutline
           : DEFAULT_SETTINGS.showOutline,
       hotkeys:
-        stored.hotkeys &&
-        Array.isArray(stored.hotkeys) &&
-        stored.hotkeys.length > 0
+        stored.hotkeys && Array.isArray(stored.hotkeys)
           ? stored.hotkeys
           : DEFAULT_SETTINGS.hotkeys,
     };

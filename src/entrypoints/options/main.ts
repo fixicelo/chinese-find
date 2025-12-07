@@ -196,7 +196,7 @@ function hydrateUI(s: UserSettings) {
     removeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1H2V3zm2 2h8v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5z" /></svg>`;
     removeBtn.className = "button icon-button destructive";
     removeBtn.title = "移除此快捷鍵";
-    removeBtn.disabled = s.hotkeys.length <= 1;
+    removeBtn.disabled = false;
     removeBtn.addEventListener("click", () => {
       const next = s.hotkeys.filter((c) => c !== combo);
       void updateSettings({ hotkeys: next });
