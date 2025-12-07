@@ -2,7 +2,7 @@
   "name": "chinese-find",
   "description": "智慧中文搜尋：自動識別繁、簡、異體字，讓您的頁面搜尋（Ctrl+F）再無障礙。",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
