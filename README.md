@@ -21,7 +21,6 @@
 2. 輸入您想尋找的中文關鍵字。
 3. 按下 `Enter` 或面板上的箭頭按鈕，在匹配結果之間輕鬆跳轉。
 
-
 ## 🚀 未來計畫
 
 - **支援拼音搜尋**：加入透過輸入拼音來尋找對應漢字的功能。
@@ -29,10 +28,11 @@
 
 ## 📥 安裝
 
-### 從商店安裝 (即將推出)
+### 從瀏覽器商店安裝
 
-- [**Chrome 線上應用程式商店** (敬請期待)](https://chrome.google.com/webstore)
-- [**Firefox Browser ADD-ONS** (敬請期待)](https://addons.mozilla.org/)
+- [**Chrome**](https://chrome.google.com/webstore/detail/ggdpaigngdljdilmcbdeeffahjpmgema)
+- [**Edge**](https://microsoftedge.microsoft.com/addons/detail/peebdkhlndmpmhdlgalnkcmkklipockf)
+- [**Firefox**](https://addons.mozilla.org/addon/chinese-find/)
 
 ## 🙏 特別鳴謝
 
