@@ -90,7 +90,7 @@ body {
   box-shadow: var(--shadow);
 }
 .header-content {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 2rem;
   height: 64px;
@@ -122,10 +122,16 @@ body {
 }
 .settings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: 1fr;
   gap: 2rem;
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
+}
+
+@media (min-width: 960px) {
+  .settings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .options-card {
