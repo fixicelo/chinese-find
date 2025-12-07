@@ -47,6 +47,48 @@ export function applyHighlightSettings(settings: UserSettings): void {
 }
 
 /**
+ * Calculates the visible part of a rect by checking ancestors for clipping.
+ */
+function getClippedRect(rect: DOMRect, containerNode: Node): DOMRect | null {
+  let left = rect.left;
+  let top = rect.top;
+  let right = rect.right;
+  let bottom = rect.bottom;
+
+  let el: HTMLElement | null =
+    containerNode.nodeType === Node.ELEMENT_NODE
+      ? (containerNode as HTMLElement)
+      : containerNode.parentElement;
+
+  while (el && el !== document.body && el !== document.documentElement) {
+    const style = window.getComputedStyle(el);
+    if (
+      style.overflow !== "visible" ||
+      style.overflowX !== "visible" ||
+      style.overflowY !== "visible"
+    ) {
+      const parentRect = el.getBoundingClientRect();
+      const clipLeft = parentRect.left + el.clientLeft;
+      const clipTop = parentRect.top + el.clientTop;
+      const clipRight = clipLeft + el.clientWidth;
+      const clipBottom = clipTop + el.clientHeight;
+
+      left = Math.max(left, clipLeft);
+      top = Math.max(top, clipTop);
+      right = Math.min(right, clipRight);
+      bottom = Math.min(bottom, clipBottom);
+
+      if (left >= right || top >= bottom) {
+        return null;
+      }
+    }
+    el = el.parentElement;
+  }
+
+  return new DOMRect(left, top, right - left, bottom - top);
+}
+
+/**
  * Creates a visual highlight element for a single Range.
  */
 function highlightRange(
@@ -55,17 +97,21 @@ function highlightRange(
   container: HTMLElement,
 ): void {
   try {
+    const commonAncestor = range.commonAncestorContainer;
     for (const rect of range.getClientRects()) {
       if (rect.width < 1 || rect.height < 1) continue;
+
+      const clippedRect = getClippedRect(rect, commonAncestor);
+      if (!clippedRect) continue;
 
       const div = document.createElement("div");
       div.className = `chinese-find-highlight${isCurrent ? " current" : ""}`;
       div.style.cssText = `
         position: absolute;
-        top: ${rect.top + window.scrollY}px;
-        left: ${rect.left + window.scrollX}px;
-        width: ${rect.width}px;
-        height: ${rect.height}px;
+        top: ${clippedRect.top + window.scrollY}px;
+        left: ${clippedRect.left + window.scrollX}px;
+        width: ${clippedRect.width}px;
+        height: ${clippedRect.height}px;
         z-index: 99998;
         pointer-events: none;
       `;
