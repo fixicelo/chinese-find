@@ -14,6 +14,24 @@
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"
   },
+  "keywords": [
+    "ctrl+f",
+    "find",
+    "搜尋",
+    "查找",
+    "繁簡",
+    "繁体",
+    "簡體",
+    "異體"
+  ],
+  "author": "fixicelo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fixicelo/chinese-find.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fixicelo/chinese-find/issues"
+  },
   "devDependencies": {
     "@wxt-dev/auto-icons": "^1.1.0",
     "typescript": "^5.9.2",
