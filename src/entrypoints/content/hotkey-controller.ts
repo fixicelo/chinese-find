@@ -37,6 +37,9 @@ export async function initializeHotkeyController(): Promise<void> {
  * Ignores key presses inside input fields, unless it's our own search panel.
  */
 function matchesConfiguredHotkey(event: KeyboardEvent): boolean {
+  if (!event.key) {
+    return false;
+  }
   const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
 
   const target = event.target as HTMLElement;
